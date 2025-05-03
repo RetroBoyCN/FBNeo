@@ -990,7 +990,7 @@ static void RefreshPanel()
 
 	GetTitlePreviewScale();
 
-	hPrevBmp = PNGLoadBitmap(hSelDlg, NULL, _213, _160, 2);
+	hPrevBmp  = PNGLoadBitmap(hSelDlg, NULL, _213, _160, 2);
 	hTitleBmp = PNGLoadBitmap(hSelDlg, NULL, _213, _160, 2);
 
 	SendDlgItemMessage(hSelDlg, IDC_SCREENSHOT_H, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hPrevBmp);
@@ -1005,13 +1005,13 @@ static void RefreshPanel()
 		EnableWindow(hInfoLabel[i], FALSE);
 	}
 
-	CheckDlgButton(hSelDlg, IDC_CHECKAUTOEXPAND, (nLoadMenuShowY & AUTOEXPAND) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hSelDlg, IDC_CHECKAVAILABLE, (nLoadMenuShowY & AVAILABLE) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hSelDlg, IDC_CHECKAUTOEXPAND,  (nLoadMenuShowY & AUTOEXPAND)  ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hSelDlg, IDC_CHECKAVAILABLE,   (nLoadMenuShowY & AVAILABLE)   ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hSelDlg, IDC_CHECKUNAVAILABLE, (nLoadMenuShowY & UNAVAILABLE) ? BST_CHECKED : BST_UNCHECKED);
 
-	CheckDlgButton(hSelDlg, IDC_SEL_SHORTNAME, nLoadMenuShowY & SHOWSHORT ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hSelDlg, IDC_SEL_ASCIIONLY, nLoadMenuShowY & ASCIIONLY ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hSelDlg, IDC_SEL_SUBDIRS, nLoadMenuShowY & SEARCHSUBDIRS ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hSelDlg, IDC_SEL_SHORTNAME, nLoadMenuShowY & SHOWSHORT     ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hSelDlg, IDC_SEL_ASCIIONLY, nLoadMenuShowY & ASCIIONLY     ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hSelDlg, IDC_SEL_SUBDIRS,   nLoadMenuShowY & SEARCHSUBDIRS ? BST_CHECKED : BST_UNCHECKED);
 }
 
 FILE* OpenPreview(int nIndex, TCHAR *szPath)
@@ -1616,7 +1616,7 @@ static UINT32 __stdcall CacheDrvIconsProc(void* lpParam)
 	return 0;
 }
 
-void IconsCacheThreadExit()
+static void IconsCacheThreadExit()
 {
 	DWORD dwExitCode = 0;
 	GetExitCodeThread(hICThread, &dwExitCode);
@@ -1745,6 +1745,7 @@ void LoadDrvIcons()
 		nBurnDrvActive       = nDrvIndex;
 		const INT32 nFlag    = BurnDrvGetFlags();
 		const INT32 nCode    = BurnDrvGetHardwareCode();
+		const TCHAR* pszName = BurnDrvGetText(DRV_NAME);
 		char* pszParent      = BurnDrvGetTextA(DRV_PARENT);
 		nBurnDrvActive       = nBackup;
 
@@ -1827,6 +1828,7 @@ void LoadDrvIcons()
 			// When allowed and Clone is checked, loads the icon of the parent item when checking that the icon file does not exist
 			if ((NULL != pszParent) && (nFlag & BDF_CLONE)) {
 				TCHAR szIcon[MAX_PATH] = { 0 };
+				_stprintf(szIcon, _T("%s%s.ico"), szAppIconsPath, pszName);
 
 				// The icon file exists, and given the GDI cap, now is not the time to deal with it
 				if (GetFileAttributes(szIcon) != INVALID_FILE_ATTRIBUTES) {
@@ -2387,8 +2389,8 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 					RebuildEverything();
 					break;
 				case IDRESCAN:
-					bRescanRoms = true;
 					LookupSubDirThreads();
+					bRescanRoms = true;
 					CreateROMInfo(hSelDlg);
 					RebuildEverything();
 					break;
@@ -2421,7 +2423,6 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 					break;
 				case IDGAMEINFO:
 					if (bDrvSelected) {
-						LookupSubDirThreads();
 						GameInfoDialogCreate(hSelDlg, nBurnDrvActive);
 						SetFocus(hSelList); // Update list for Rescan Romset button
 					} else {

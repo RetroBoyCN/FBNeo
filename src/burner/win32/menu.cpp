@@ -36,7 +36,6 @@ static HHOOK hMenuHook;
 
 static LRESULT CALLBACK MenuHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-
 	switch (((MSG*)lParam)->message) {
 
 		case WM_MOUSEMOVE: {				// Translate coordinates to menubar client coordinates
@@ -50,12 +49,25 @@ static LRESULT CALLBACK MenuHook(int nCode, WPARAM wParam, LPARAM lParam)
 				SendMessage(hMenubar, TB_GETITEMRECT, nLastMenu, (LPARAM)&buttonrect);
 
 				if (!(point.x >= rect.left + buttonrect.left && point.y >= rect.top + buttonrect.top && point.x < rect.left + buttonrect.right && point.y < rect.top + buttonrect.bottom)) {
-					SendNotifyMessage(hMenubar, WM_MOUSEMOVE, wParam, MAKELONG(point.x - rect.left, point.y - rect.top));
+					HMENU hPopupMenu = GetSubMenu(hMenu, nLastMenu);					// The last menu captured in the hook must be the menu you just clicked.
+					INT32 nMenuCount = GetMenuItemCount(hPopupMenu);					// Gets the number of submenus.
+					RECT itemRect = { 0,0,0,0 }, popmenuRect = { 0,0,0,0 };
+					GetMenuItemRect(NULL, hPopupMenu, 0, &itemRect);					// To get the left and top of the rect when the menu is expanded.
+					popmenuRect.left = itemRect.left;
+					popmenuRect.top = itemRect.top;
+					GetMenuItemRect(NULL, hPopupMenu, nMenuCount - 1, &itemRect);		// To get the right and bottom of the rect when the menu is expanded.
+					popmenuRect.right = itemRect.right;
+					popmenuRect.bottom = itemRect.bottom;
+					if (!PtInRect(&popmenuRect, point)) {								// Executed when the mouse is not in the rect range.
+						SendNotifyMessage(hMenubar, WM_MOUSEMOVE, wParam, MAKELONG(point.x - rect.left, point.y - rect.top));
+					}
 				}
 			}
 			break;
 		}
 
+#if 0
+		// This is a troublemaker, no need.
 		case WM_LBUTTONDOWN: {
 			RECT rect;
 			RECT buttonrect;
@@ -71,9 +83,9 @@ static LRESULT CALLBACK MenuHook(int nCode, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		}
+#endif
 
 	}
-
 	MenuHandleKeyboard((MSG*)lParam);
 
 	return CallNextHookEx(hMenuHook, nCode, wParam, lParam);

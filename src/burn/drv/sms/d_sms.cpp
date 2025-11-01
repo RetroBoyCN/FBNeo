@@ -22006,9 +22006,9 @@ struct BurnDriver BurnDrvsms_castlescape = {
 	256, 192, 4, 3
 };
 
-// Castle Escape (HB, v2.0)
+// Castle Escape (HB, v2.1.3)
 static struct BurnRomInfo sms_castlescapev2RomDesc[] = {
-	{ "Castle Escape v2.0 (2025)(IrataHack).sms",	65536, 0xc8e4298d, BRF_PRG | BRF_ESS },
+	{ "Castle Escape v2.1.3 (2025)(IrataHack).sms",	65536, 0x6498510f, BRF_PRG | BRF_ESS },
 };
 
 STD_ROM_PICK(sms_castlescapev2)
@@ -22016,7 +22016,7 @@ STD_ROM_FN(sms_castlescapev2)
 
 struct BurnDriver BurnDrvsms_castlescapev2 = {
 	"sms_castlescapev2", NULL, NULL, NULL, "2025",
-	"Castle Escape (HB, v2.0)\0", NULL, "IrataHack", "Sega Master System",
+	"Castle Escape (HB, v2.1.3)\0", NULL, "IrataHack", "Sega Master System",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HOMEBREW, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM, 0,
 	SMSGetZipName, sms_castlescapev2RomInfo, sms_castlescapev2RomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSDIPInfo,
@@ -22294,9 +22294,9 @@ struct BurnDriver BurnDrvsms_fpigarus = {
 	256, 192, 4, 3
 };
 
-// Forest Escape: A Knight's Quest (HB)
+// Forest Escape: A Knight's Quest (HB, v1.2.1)
 static struct BurnRomInfo sms_forestescapeRomDesc[] = {
-	{ "Forest Escape - A Knight's Quest (2025)(IrataHack).sms",	81920, 0xb56748ba, BRF_PRG | BRF_ESS },
+	{ "Forest Escape - A Knight's Quest v1.2.1 (2025)(IrataHack).sms",	81920, 0x22d0c6eb, BRF_PRG | BRF_ESS },
 };
 
 STD_ROM_PICK(sms_forestescape)
@@ -22304,7 +22304,7 @@ STD_ROM_FN(sms_forestescape)
 
 struct BurnDriver BurnDrvsms_forestescape = {
 	"sms_forestescape", NULL, NULL, NULL, "2025",
-	"Forest Escape: A Knight's Quest (HB)\0", NULL, "IrataHack", "Sega Master System",
+	"Forest Escape: A Knight's Quest (HB, v1.2.1)\0", NULL, "IrataHack", "Sega Master System",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HOMEBREW, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM, 0,
 	SMSGetZipName, sms_forestescapeRomInfo, sms_forestescapeRomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSDIPInfo,
@@ -22888,6 +22888,24 @@ struct BurnDriver BurnDrvsms_lambo = {
 	256, 192, 4, 3
 };
 
+// Laranja Mecânico (HB, Portuguese)
+static struct BurnRomInfo sms_laranjamecRomDesc[] = {
+	{ "Laranja Mecanico (2023)(Jaguarete Retro Games).sms",	524288, 0x8126ac1a, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(sms_laranjamec)
+STD_ROM_FN(sms_laranjamec)
+
+struct BurnDriver BurnDrvsms_laranjamec = {
+	"sms_laranjamec", NULL, NULL, NULL, "2023",
+	"Laranja Mecanico (HB, Portuguese)\0", NULL, "Jaguarete Retro Games", "Sega Master System",
+	L"Laranja Mec\u00e2nico (HB, Portuguese)", NULL, L"Jaguaret\u00ea Retro Games", NULL,
+	BDF_GAME_WORKING | BDF_HOMEBREW, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM | GBF_SCRFIGHT, 0,
+	SMSGetZipName, sms_laranjamecRomInfo, sms_laranjamecRomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSFMDIPInfo,
+	SMSInit, SMSExit, SMSFrame, SMSDraw, SMSScan, &SMSPaletteRecalc, 0x1E00,
+	256, 192, 4, 3
+};
+
 // Lift (HB)
 static struct BurnRomInfo sms_liftRomDesc[] = {
 	{ "Lift (2021)(Inufuto).sms",	12705, 0x2c5420a9, BRF_PRG | BRF_ESS },
@@ -23264,6 +23282,24 @@ struct BurnDriver BurnDrvsms_novdmvdp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HOMEBREW | BDF_DEMO, 1, HARDWARE_SEGA_MASTER_SYSTEM | HARDWARE_SMS_NO_CART_HEADER, GBF_MISC, 0,
 	SMSGetZipName, sms_novdmvdpRomInfo, sms_novdmvdpRomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSDIPInfo,
+	SMSInit, SMSExit, SMSFrame, SMSDraw, SMSScan, &SMSPaletteRecalc, 0x1E00,
+	256, 192, 4, 3
+};
+
+// Noturno (HB, Portuguese)
+static struct BurnRomInfo sms_noturnoRomDesc[] = {
+	{ "Noturno (2025)(LMS Retro).sms",	524288, 0x47be6422, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(sms_noturno)
+STD_ROM_FN(sms_noturno)
+
+struct BurnDriver BurnDrvsms_noturno = {
+	"sms_noturno", NULL, NULL, NULL, "2025",
+	"Noturno (HB, Portuguese)\0", NULL, "LMS Retro", "Sega Master System",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HOMEBREW, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM | GBF_SCRFIGHT, 0,
+	SMSGetZipName, sms_noturnoRomInfo, sms_noturnoRomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSFMDIPInfo,
 	SMSInit, SMSExit, SMSFrame, SMSDraw, SMSScan, &SMSPaletteRecalc, 0x1E00,
 	256, 192, 4, 3
 };
